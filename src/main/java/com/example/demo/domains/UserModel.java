@@ -12,11 +12,12 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-public class User  {
+public class UserModel  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String username;
     private String password;
     private String name;
