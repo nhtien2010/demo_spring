@@ -1,28 +1,33 @@
 package com.example.demo.domains;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
 
 @Entity
 @Getter
 @Setter
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Product extends BaseEntity {
 
     private String name;
     private String description;
-    private Float price;
+    private Double price;
     private String currency;
+    private int inStock;
+    private String brand;
+
     @ElementCollection
     private List<String> imageUrls;
 
-    @OneToMany
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private Set<Category> categories;
+
+
 }

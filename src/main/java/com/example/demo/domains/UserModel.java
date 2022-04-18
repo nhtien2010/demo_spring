@@ -3,30 +3,29 @@ package com.example.demo.domains;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class UserModel  {
+public class UserModel extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     private String username;
     private String password;
     private String name;
     private String email;
     private String phoneNumber;
+    private String address;
     private String avatarUrl;
     private String roleId;
-    private Date createdDate;
-    private Date updatedDate;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userModel")
+    private Cart cart;
+
+    @OneToMany(mappedBy = "userModel")
+    private List<Order> orders;
 
 }
