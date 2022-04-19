@@ -1,38 +1,47 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dtos.requests.RegisterRequest;
 import com.example.demo.services.AuthenticateService;
 import com.example.demo.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@RestController
+@RequestMapping(path = "api/authenticate")
+@RequiredArgsConstructor
 public class AuthenticateController {
 
-   /* @Autowired
-    private AuthenticateService authenticateService;
-    @Autowired
-    private UserService userService;*/
+    final private AuthenticateService authenticateService;
+    final private UserService userService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public void register(HttpServletRequest request,
-                           @ModelAttribute("email") String email,
-                           @ModelAttribute("username") String username,
-                           Model model){
+    public ResponseEntity register(@RequestBody RegisterRequest request){
+
+     return null;
 
 
     }
 
-    public void login(){
+    @RequestMapping(value = "/refreshToken", method = RequestMethod.POST)
+    public void refreshToken(){
 
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(){
+        return null;
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public void logout(){
 
     }
+
+
 }

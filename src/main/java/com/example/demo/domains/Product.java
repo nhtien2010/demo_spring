@@ -22,7 +22,7 @@ public class Product extends BaseEntity {
     private int inStock;
     private String brand;
 
-    @ElementCollection
+    @Transient
     private List<String> imageUrls;
 
     @OneToMany(mappedBy = "product")

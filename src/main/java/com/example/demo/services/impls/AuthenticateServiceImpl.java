@@ -3,14 +3,15 @@ package com.example.demo.services.impls;
 import com.example.demo.domains.UserModel;
 import com.example.demo.repositories.AuthenticateRepository;
 import com.example.demo.services.AuthenticateService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticateServiceImpl implements AuthenticateService {
 
-/*    @Autowired
-    private AuthenticateRepository authenticateRepository;*/
+    final private AuthenticateRepository authenticateRepository;
 
     @Override
     public String authenticate(String username, String password) {
