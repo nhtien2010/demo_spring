@@ -1,9 +1,12 @@
 package com.example.demo.services;
 
-import com.example.demo.domains.UserModel;
+import com.example.demo.dtos.requests.LoginRequestDTO;
+import com.example.demo.dtos.requests.RegisterRequestDTO;
+import com.example.demo.dtos.responses.UserResponseDTO;
 
 public interface AuthenticateService {
-    public  String authenticate(String username, String password);
-    public  String register(UserModel userModel);
+    UserResponseDTO authenticate(LoginRequestDTO requestDTO);
+    Boolean register(RegisterRequestDTO request);
+    Boolean logOut(Long userId);
 
 }

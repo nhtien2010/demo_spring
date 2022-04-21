@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-public class UserResponse {
+public class UserResponseDTO {
     private Long id;
     private Date createdDate;
     private Date updatedDate;
