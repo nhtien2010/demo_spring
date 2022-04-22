@@ -19,7 +19,7 @@ import javax.validation.Valid;
 public class AuthenticateController {
 
     final private AuthenticateService authenticateService;
-    final private UserService userService;
+    //final private UserService userService;
 
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

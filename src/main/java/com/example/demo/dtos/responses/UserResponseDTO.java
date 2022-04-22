@@ -8,6 +8,7 @@ import com.example.demo.domains.UserRole;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class UserResponseDTO {
     private Long id;
@@ -19,7 +20,7 @@ public class UserResponseDTO {
     private String email;
     private String avatarUrl;
 
-    private UserRole userRole;
-    private Cart cart;
-    private List<Order> orders;
+    private Set<UserRole> roles;
+    private CartResponseDTO cart;
+    private List<OrderResponseDTO> orders;
 }

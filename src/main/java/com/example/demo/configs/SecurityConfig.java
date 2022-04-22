@@ -37,11 +37,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 //.formLogin().disable()
-                .cors().and().csrf().disable()
+                .cors().and()
+                .csrf().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(getAuthenticateFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
+                //.antMatchers("/api", "/**").permitAll()
                 .antMatchers().hasRole("ADMIN")
                 .anyRequest().authenticated();
     }

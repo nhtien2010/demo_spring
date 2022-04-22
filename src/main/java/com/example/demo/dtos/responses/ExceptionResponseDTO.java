@@ -1,13 +1,15 @@
 package com.example.demo.dtos.responses;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
 
 @Getter@Setter
+@RequiredArgsConstructor
 public class ExceptionResponseDTO {
-    int statusCode;
-    String message;
-    Instant timeStamp;
+    final int statusCode;
+    final String message;
+    final Instant timeStamp;
 }

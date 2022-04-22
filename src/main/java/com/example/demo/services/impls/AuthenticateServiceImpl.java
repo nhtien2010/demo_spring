@@ -41,7 +41,8 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 
     @Override
     public Boolean register(RegisterRequestDTO dto) {
-        UserModel userModel = mapper.map(dto, UserModel.class);
+//        UserModel userModel = mapper.map(dto, UserModel.class);
+//        userService.createUser(dto);
         return true;
     }
 
