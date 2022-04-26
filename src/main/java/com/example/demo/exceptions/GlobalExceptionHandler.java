@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
@@ -16,23 +17,27 @@ import java.time.Instant;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler  {
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    private ExceptionResponseDTO buildResponse(HttpStatus status, String message){
-        return new ExceptionResponseDTO(status.value(), message, Instant.now());
+    private ResponseEntity<ExceptionResponseDTO> buildResponse(HttpStatus status, String message){
+        logger.error("Handler exception : {}", message);
+        return new ResponseEntity<>(
+                new ExceptionResponseDTO(status.value(), message, Instant.now()), status);
     }
 
     @ExceptionHandler(value = {BadRequestException.class})
     public final ResponseEntity<ExceptionResponseDTO> handleBadRequestException(RuntimeException ex, WebRequest request) {
-        HttpStatus status = BadRequestException.status;
-        ExceptionResponseDTO responseDto = buildResponse(status, ex.getMessage());
-        return new ResponseEntity<>(responseDto, status);
+        return buildResponse(BadRequestException.status, ex.getMessage());
     }
 
-    @ExceptionHandler(value = {NotFoundException.class})
+    @ExceptionHandler(value = {NotFoundException.class, UsernameNotFoundException.class})
     public final ResponseEntity<ExceptionResponseDTO> handleNotFoundException(RuntimeException ex, WebRequest request) {
-        HttpStatus status = NotFoundException.status;
-        ExceptionResponseDTO responseDto = buildResponse(status, ex.getMessage());
-        return new ResponseEntity<>(responseDto, status);
+        return buildResponse(NotFoundException.status, ex.getMessage());
     }
+
+    @ExceptionHandler(value = {ConflictRequestException.class})
+    public final ResponseEntity<ExceptionResponseDTO> handleConflictRequestException(RuntimeException ex, WebRequest request) {
+        return buildResponse(ConflictRequestException.status, ex.getMessage());
+    }
+
 
     @ExceptionHandler(value = {RuntimeException.class})
     protected ResponseEntity<Object> handleRemainExceptions(RuntimeException ex){

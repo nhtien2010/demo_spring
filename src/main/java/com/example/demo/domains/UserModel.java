@@ -21,6 +21,7 @@ public class UserModel extends BaseEntity implements UserDetails {
     private String phoneNumber;
     private String address;
     private String avatarUrl;
+    private Boolean isLocked;
 
     @Transient
     private Set<UserRole> roles = new HashSet<>();
@@ -38,12 +39,12 @@ public class UserModel extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !isLocked;
     }
 
     @Override

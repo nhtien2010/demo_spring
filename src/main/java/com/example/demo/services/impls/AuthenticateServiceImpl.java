@@ -31,8 +31,8 @@ import static java.lang.String.format;
 public class AuthenticateServiceImpl implements AuthenticateService {
     private final Logger logger = LoggerFactory.getLogger(AuthenticateServiceImpl.class);
 
-    private final AuthenticateRepository authenticateRepository;
-    private final UserRepository userRepository;
+    //private final AuthenticateRepository authenticateRepository;
+    //private final UserRepository userRepository;
     private final ModelMapper mapper;
 
     @Autowired
@@ -41,8 +41,9 @@ public class AuthenticateServiceImpl implements AuthenticateService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JWTUtil jwtUtil;
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
 
     @Override
@@ -50,25 +51,25 @@ public class AuthenticateServiceImpl implements AuthenticateService {
         if(request.username == null || request.password == null){
             throw new BadRequestException("Invalid request input!");
         }
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.username, request.password));
-        }catch (BadCredentialsException e){
-            logger.error("Bad credential exception : {}", e.getMessage());
-            throw new BadRequestException("Invalid username or password!");
-        }
-        UserModel userModel = (UserModel) userService.loadUserByUsername(request.username);
-        if(userModel == null){
-            throw new NotFoundException(format("User %s not exist!", request.username));
-        }
-        String accessToken = jwtUtil.generateToken(userModel);
-        String refreshToken = "";
-        //        if(!userModel.isAccountNonLocked()){
-//            throw new BadRequestException(format("User %s is locked!", request.username));
+//        try {
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            request.username, request.password));
+//
+//        }catch (BadCredentialsException e){
+//            logger.error("Bad credential exception : {}", e.getMessage());
+//            throw new BadRequestException("Wrong username or password!");
 //        }
-        return new LoginResponseDTO(
-                accessToken, refreshToken, mapper.map(userModel, UserResponseDTO.class));
+
+        UserModel userModel = (UserModel) userService.loadUserByUsername(request.username);
+        if((passwordEncoder.matches(request.password, userModel.getPassword()))){
+            String accessToken = jwtUtil.generateToken(userModel);
+            String refreshToken = jwtUtil.generateToken(userModel);
+            return new LoginResponseDTO(
+                    accessToken, refreshToken, mapper.map(userModel, UserResponseDTO.class));
+        }else {
+            throw new BadRequestException("Wrong username or password!");
+        }
     }
 
     @Override

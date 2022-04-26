@@ -45,10 +45,17 @@ public class JWTUtil {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_USER_ID, user.getId());
         claims.put(CLAIM_USER_ROLE_ID, user.getRoles());
-        return createToken(claims, user.getUsername());
+        return createToken(claims, user.getUsername(), accessTokenExpirationMin);
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
+    public String generateRefreshToken(UserModel user){
+          Map<String, Object> claims = new HashMap<>();
+        claims.put(CLAIM_USER_ID, user.getId());
+        claims.put(CLAIM_USER_ROLE_ID, user.getRoles());
+        return createToken(claims, user.getUsername(), refreshTokenExpirationMin);
+    }
+
+    private String createToken(Map<String, Object> claims, String subject,long expirationMin) {
         return Jwts.builder()
                 .setId(UUID.randomUUID().toString())
                 .setSubject(subject)
@@ -56,10 +63,9 @@ public class JWTUtil {
                 .setIssuer(issuer)
                 .setAudience(audience)
                 .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(Instant.now().plus(Duration.ofMinutes(accessTokenExpirationMin))))
+                .setExpiration(Date.from(Instant.now().plus(Duration.ofMinutes(expirationMin))))
                 .signWith(secretKey)
                 .compact();
-
     }
 
     private  Claims extractAllClaims(String token){

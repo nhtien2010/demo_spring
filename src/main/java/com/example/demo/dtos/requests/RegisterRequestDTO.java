@@ -7,8 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RegisterRequestDTO {
+    public String name;
     public String email;
     public String username;
     public String password;
-    public int userRoleId;
+    public String userRole;
 }

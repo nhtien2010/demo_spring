@@ -27,7 +27,7 @@ public class AuthenticateController {
         return ResponseEntity.ok(authenticateService.register(request));
     }
 
-    @RequestMapping(value = "/refreshToken", method = RequestMethod.POST)
+    @RequestMapping(value = "/refresh", method = RequestMethod.POST)
     public ResponseEntity<?> refreshToken(@Valid @RequestBody LoginRequestDTO request){
         return ResponseEntity.ok(authenticateService.authenticate(request));
     }
