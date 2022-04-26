@@ -1,5 +1,9 @@
 package com.example.demo.services.impls;
 
+import com.example.demo.dtos.requests.AddCategoryRequestDTO;
+import com.example.demo.dtos.requests.AddProductRequestDTO;
+import com.example.demo.dtos.requests.UpdateCategoryRequestDTO;
+import com.example.demo.dtos.requests.UpdateProductRequestDTO;
 import com.example.demo.dtos.responses.CategoryResponseDTO;
 import com.example.demo.dtos.responses.ProductResponseDTO;
 import com.example.demo.services.ProductService;
@@ -22,7 +26,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<CategoryResponseDTO> listCategories() {
+    public ProductResponseDTO addProduct(AddProductRequestDTO dto) {
         return null;
     }
+
+    @Override
+    public Boolean deleteProduct(Long prdId) {
+        return null;
+    }
+
+    @Override
+    public ProductResponseDTO updateProduct(UpdateProductRequestDTO dto) {
+        return null;
+    }
+
 }
