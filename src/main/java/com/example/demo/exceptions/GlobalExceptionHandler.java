@@ -16,13 +16,21 @@ import java.time.Instant;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler  {
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(value = {BadRequestException.class})
-    //@ResponseStatus(HttpStatus.BAD_REQUEST)
-    public final ResponseEntity<ExceptionResponseDTO> handleBadRequestException(Exception ex, WebRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        ExceptionResponseDTO responseDto =
-                new ExceptionResponseDTO(status.value(), ex.getMessage(), Instant.now());
+    private ExceptionResponseDTO buildResponse(HttpStatus status, String message){
+        return new ExceptionResponseDTO(status.value(), message, Instant.now());
+    }
 
+    @ExceptionHandler(value = {BadRequestException.class})
+    public final ResponseEntity<ExceptionResponseDTO> handleBadRequestException(RuntimeException ex, WebRequest request) {
+        HttpStatus status = BadRequestException.status;
+        ExceptionResponseDTO responseDto = buildResponse(status, ex.getMessage());
+        return new ResponseEntity<>(responseDto, status);
+    }
+
+    @ExceptionHandler(value = {NotFoundException.class})
+    public final ResponseEntity<ExceptionResponseDTO> handleNotFoundException(RuntimeException ex, WebRequest request) {
+        HttpStatus status = NotFoundException.status;
+        ExceptionResponseDTO responseDto = buildResponse(status, ex.getMessage());
         return new ResponseEntity<>(responseDto, status);
     }
 

@@ -24,9 +24,7 @@ public class AuthenticateController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDTO request){
-
         return ResponseEntity.ok(authenticateService.register(request));
-
     }
 
     @RequestMapping(value = "/refreshToken", method = RequestMethod.POST)

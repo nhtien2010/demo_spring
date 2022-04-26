@@ -22,11 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    final private UserService userService;
+    @Autowired
+    private UserService userService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -43,19 +43,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(getAuthenticateFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                //.antMatchers("/api", "/**").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
                 .antMatchers().hasRole("ADMIN")
                 .anyRequest().authenticated();
     }
+
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    public AuthenticationManager getAuthenticationManager() throws Exception {
+//        return authenticationManager();
+//    }
+
+
+    @Override
     @Bean
-    public AuthenticationManager getAuthenticationManager() throws Exception {
-        return authenticationManager();
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Bean

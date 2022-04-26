@@ -15,9 +15,8 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
 
 @Component
 public class JWTUtil {
@@ -33,8 +32,8 @@ public class JWTUtil {
 
     private SecretKey secretKey;
 
-    private static final String CLAIM_USER_ID = "id";
-    private static final String CLAIM_USER_ROLE_ID = "roleId";
+    private static final String CLAIM_USER_ID = "userId";
+    private static final String CLAIM_USER_ROLE_ID = "roleIds";
     private static final Logger logger = LoggerFactory.getLogger(JWTUtil.class);
 
     @PostConstruct
@@ -42,13 +41,18 @@ public class JWTUtil {
         secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(UserModel user) {
+    public String generateToken(UserModel user){
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(CLAIM_USER_ID, user.getId());
+        claims.put(CLAIM_USER_ROLE_ID, user.getRoles());
+        return createToken(claims, user.getUsername());
+    }
 
+    private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setId(UUID.randomUUID().toString())
-                .setSubject(user.getUsername())
-                .claim(CLAIM_USER_ID, user.getId())
-                .claim(CLAIM_USER_ROLE_ID, user.getRoles())
+                .setSubject(subject)
+                .setClaims(claims)
                 .setIssuer(issuer)
                 .setAudience(audience)
                 .setIssuedAt(Date.from(Instant.now()))
@@ -58,17 +62,23 @@ public class JWTUtil {
 
     }
 
-    private Claims parseClaimsFromToken(String token) {
+    private  Claims extractAllClaims(String token){
+        return  Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJwt(token).getBody();
+    }
+
+    private Claims parseClaimsFromToken(String token, String subject) {
 
         try {
             var jwt = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .requireAudience(audience)
+                    .requireSubject(subject)
                     .build()
                     .parseClaimsJwt(token);
             return jwt.getBody();
 
-        } catch (SignatureException e) {
+        }
+        catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token: {}", e.getMessage());
@@ -78,15 +88,29 @@ public class JWTUtil {
             logger.error("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
+        }catch (InvalidClaimException e){
+            logger.error("Invalid claims jwt: {}", e.getMessage());
         }
         return null;
     }
 
-    public boolean validateToken(String token) {
-        return parseClaimsFromToken(token) != null;
+    public boolean validateToken(String token, UserModel userModel) {
+        return parseClaimsFromToken(token, userModel.getUsername()) != null;
     }
 
-    public Claims getClaimsFromToken(String token) {
-        return parseClaimsFromToken(token);
+    public String extractUsername(String token){
+        return extractClaims(token, Claims::getSubject);
     }
+    public Date extractExpiration(String token){
+        return extractClaims(token, Claims::getExpiration);
+    }
+
+    public <T> T extractClaims(String token, Function<Claims, T> claimsResolver){
+        return claimsResolver.apply(extractAllClaims(token));
+    }
+    private Boolean isTokenExpired(String token){
+        return extractExpiration(token).before(new Date());
+    }
+
+
 }
