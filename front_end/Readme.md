@@ -4,4 +4,4 @@
 
 ## ReactJs
 
-## E-comerce
+## E-comerce - web app
