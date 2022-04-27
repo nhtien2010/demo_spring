@@ -1,14 +1,14 @@
 package com.example.demo.services;
 
-import com.example.demo.dtos.requests.AddCategoryRequestDTO;
-import com.example.demo.dtos.requests.UpdateCategoryRequestDTO;
-import com.example.demo.dtos.responses.CategoryResponseDTO;
+import com.example.demo.dtos.requests.AddCategoryRequestDto;
+import com.example.demo.dtos.requests.UpdateCategoryRequestDto;
+import com.example.demo.dtos.responses.CategoryResponseDto;
 
 import java.util.List;
 
 public interface CategoryService {
-    List<CategoryResponseDTO> getAllCategories();
-    CategoryResponseDTO addCategory(AddCategoryRequestDTO dto);
+    List<CategoryResponseDto> getAllCategories();
+    CategoryResponseDto addCategory(AddCategoryRequestDto dto);
     Boolean deleteCategory(Long catId);
-    CategoryResponseDTO updateCategory(UpdateCategoryRequestDTO dto);
+    CategoryResponseDto updateCategory(UpdateCategoryRequestDto dto);
 }

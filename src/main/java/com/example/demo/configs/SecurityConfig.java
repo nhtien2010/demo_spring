@@ -1,6 +1,8 @@
 package com.example.demo.configs;
 
+import com.example.demo.common.MessageFormatter;
 import com.example.demo.filters.AuthenticateJWTFilter;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.UserService;
 import com.example.demo.services.impls.UserServiceImpl;
 import com.example.demo.utils.JWTUtil;
@@ -16,21 +18,32 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static java.lang.String.format;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserService userService;
+//    @Autowired
+//    private final UserService userService;
+    private final UserRepository userRepository;
+
+    public SecurityConfig(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
+        auth.userDetailsService(username ->  userRepository.findByUsername(username)
+                .orElse(userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        MessageFormatter.formatUserNotFound(username)))));
     }
 
     @Override
@@ -42,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(getAuthenticateFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/category/all").permitAll()
                 .antMatchers().hasRole("ADMIN")
                 .anyRequest().authenticated();
     }

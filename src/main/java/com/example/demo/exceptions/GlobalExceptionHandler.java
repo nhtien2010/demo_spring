@@ -1,6 +1,6 @@
 package com.example.demo.exceptions;
 
-import com.example.demo.dtos.responses.ExceptionResponseDTO;
+import com.example.demo.dtos.responses.ExceptionResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,24 +17,24 @@ import java.time.Instant;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler  {
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    private ResponseEntity<ExceptionResponseDTO> buildResponse(HttpStatus status, String message){
+    private ResponseEntity<ExceptionResponseDto> buildResponse(HttpStatus status, String message){
         logger.error("Handler exception : {}", message);
         return new ResponseEntity<>(
-                new ExceptionResponseDTO(status.value(), message, Instant.now()), status);
+                new ExceptionResponseDto(status.value(), message, Instant.now()), status);
     }
 
     @ExceptionHandler(value = {BadRequestException.class})
-    public final ResponseEntity<ExceptionResponseDTO> handleBadRequestException(RuntimeException ex, WebRequest request) {
+    public final ResponseEntity<ExceptionResponseDto> handleBadRequestException(RuntimeException ex, WebRequest request) {
         return buildResponse(BadRequestException.status, ex.getMessage());
     }
 
     @ExceptionHandler(value = {NotFoundException.class, UsernameNotFoundException.class})
-    public final ResponseEntity<ExceptionResponseDTO> handleNotFoundException(RuntimeException ex, WebRequest request) {
+    public final ResponseEntity<ExceptionResponseDto> handleNotFoundException(RuntimeException ex, WebRequest request) {
         return buildResponse(NotFoundException.status, ex.getMessage());
     }
 
     @ExceptionHandler(value = {ConflictRequestException.class})
-    public final ResponseEntity<ExceptionResponseDTO> handleConflictRequestException(RuntimeException ex, WebRequest request) {
+    public final ResponseEntity<ExceptionResponseDto> handleConflictRequestException(RuntimeException ex, WebRequest request) {
         return buildResponse(ConflictRequestException.status, ex.getMessage());
     }
 

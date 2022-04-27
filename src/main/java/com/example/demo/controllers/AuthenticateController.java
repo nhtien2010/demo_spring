@@ -1,7 +1,8 @@
 package com.example.demo.controllers;
 
-import com.example.demo.dtos.requests.LoginRequestDTO;
-import com.example.demo.dtos.requests.RegisterRequestDTO;
+import com.example.demo.dtos.requests.LoginRequestDto;
+import com.example.demo.dtos.requests.RegisterAdminRequestDto;
+import com.example.demo.dtos.requests.RegisterUserRequestDto;
 import com.example.demo.services.AuthenticateService;
 import com.example.demo.services.UserService;
 import com.example.demo.utils.JWTUtil;
@@ -22,18 +23,22 @@ public class AuthenticateController {
     //final private UserService userService;
 
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDTO request){
+    @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterUserRequestDto request){
+        return ResponseEntity.ok(authenticateService.register(request));
+    }
+    @RequestMapping(value = "/registerAdmin", method = RequestMethod.POST)
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterAdminRequestDto request){
         return ResponseEntity.ok(authenticateService.register(request));
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.PUT)
-    public ResponseEntity<?> refreshToken(@Valid @RequestBody LoginRequestDTO request){
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody LoginRequestDto request){
         return ResponseEntity.ok(authenticateService.authenticate(request));
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO request){
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDto request){
         return ResponseEntity.ok(authenticateService.authenticate(request));
     }
 

@@ -1,11 +1,12 @@
 package com.example.demo.controllers;
 
-import com.example.demo.dtos.requests.AddProductRequestDTO;
-import com.example.demo.dtos.requests.RegisterRequestDTO;
-import com.example.demo.dtos.requests.UpdateProductRequestDTO;
+import com.example.demo.dtos.requests.AddProductRequestDto;
+import com.example.demo.dtos.requests.RegisterRequestDto;
+import com.example.demo.dtos.requests.UpdateProductRequestDto;
 import com.example.demo.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,14 +26,17 @@ public class ProductManagementController {
         return ResponseEntity.ok(productService.listProducts());
     }
 
+    @PreAuthorize(value = "hasRole('ADMIN')")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> addProduct(@Valid @RequestBody AddProductRequestDTO request){
+    public ResponseEntity<?> addProduct(@Valid @RequestBody AddProductRequestDto request){
         return ResponseEntity.ok(productService.addProduct(request));
     }
+    @PreAuthorize(value = "hasRole('ADMIN')")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateProduct(@Valid @RequestBody UpdateProductRequestDTO request){
+    public ResponseEntity<?> updateProduct(@Valid @RequestBody UpdateProductRequestDto request){
         return ResponseEntity.ok(productService.updateProduct(request));
     }
+    @PreAuthorize(value = "hasRole('ADMIN')")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteProduct(@Valid @RequestParam("prId") Long prId){
         return ResponseEntity.ok(productService.deleteProduct(prId));

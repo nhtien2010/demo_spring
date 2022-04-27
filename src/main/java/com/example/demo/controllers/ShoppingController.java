@@ -1,8 +1,8 @@
 package com.example.demo.controllers;
 
-import com.example.demo.dtos.requests.OrderRequestDTO;
-import com.example.demo.dtos.requests.ShoppingProductRequestDTO;
-import com.example.demo.dtos.requests.UpdateCartRequestDTO;
+import com.example.demo.dtos.requests.OrderRequestDto;
+import com.example.demo.dtos.requests.ShoppingProductRequestDto;
+import com.example.demo.dtos.requests.UpdateCartRequestDto;
 import com.example.demo.services.ProductService;
 import com.example.demo.services.ShoppingService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class ShoppingController {
     private final ShoppingService shoppingService;
 
     @RequestMapping(value = "/updateCart", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateCart(@Valid @RequestBody UpdateCartRequestDTO dto){
+    public ResponseEntity<?> updateCart(@Valid @RequestBody UpdateCartRequestDto dto){
         return ResponseEntity.ok(shoppingService.updateCart(dto));
     }
 
@@ -38,12 +38,12 @@ public class ShoppingController {
     }
 
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST)
-    public ResponseEntity<?> addProduct(@Valid @RequestBody ShoppingProductRequestDTO dto){
+    public ResponseEntity<?> addProduct(@Valid @RequestBody ShoppingProductRequestDto dto){
         return ResponseEntity.ok(shoppingService.addProductToCart(dto));
     }
 
     @RequestMapping(value = "/order", method = RequestMethod.POST)
-    public ResponseEntity<?> addProduct(@Valid @RequestBody OrderRequestDTO dto){
+    public ResponseEntity<?> addProduct(@Valid @RequestBody OrderRequestDto dto){
         return ResponseEntity.ok(shoppingService.orderProducts(dto));
     }
 

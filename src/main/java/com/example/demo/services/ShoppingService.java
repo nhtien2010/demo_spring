@@ -1,20 +1,20 @@
 package com.example.demo.services;
 
-import com.example.demo.dtos.requests.OrderRequestDTO;
-import com.example.demo.dtos.requests.ShoppingProductRequestDTO;
-import com.example.demo.dtos.requests.UpdateCartRequestDTO;
-import com.example.demo.dtos.responses.CartResponseDTO;
-import com.example.demo.dtos.responses.OrderResponseDTO;
-import com.example.demo.dtos.responses.ShoppingProductResponseDTO;
+import com.example.demo.dtos.requests.OrderRequestDto;
+import com.example.demo.dtos.requests.ShoppingProductRequestDto;
+import com.example.demo.dtos.requests.UpdateCartRequestDto;
+import com.example.demo.dtos.responses.CartResponseDto;
+import com.example.demo.dtos.responses.OrderResponseDto;
+import com.example.demo.dtos.responses.ShoppingProductResponseDto;
 
 import java.util.List;
 
 public interface ShoppingService {
-    CartResponseDTO updateCart(UpdateCartRequestDTO dto);
-    CartResponseDTO getCart(Long userId);
-    OrderResponseDTO getOrder(Long orderId);
-    List<OrderResponseDTO> getOrders(Long userId);
-    CartResponseDTO addProductToCart(ShoppingProductRequestDTO dto);
-    OrderResponseDTO orderProducts(OrderRequestDTO dto);
+    CartResponseDto updateCart(UpdateCartRequestDto dto);
+    CartResponseDto getCart(Long userId);
+    OrderResponseDto getOrder(Long orderId);
+    List<OrderResponseDto> getOrders(Long userId);
+    CartResponseDto addProductToCart(ShoppingProductRequestDto dto);
+    OrderResponseDto orderProducts(OrderRequestDto dto);
 
 }

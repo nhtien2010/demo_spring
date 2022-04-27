@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-public class ProductResponseDTO {
+public class ProductResponseDto {
     private Long id;
     private Date createdDate;
     private Date updatedDate;
@@ -22,5 +22,5 @@ public class ProductResponseDTO {
 
     private List<String> imageUrls;
 
-    private Set<CategoryResponseDTO> categories;
+    private Set<CategoryResponseDto> categories;
 }

@@ -1,10 +1,11 @@
 package com.example.demo.dtos.requests;
 
+import com.example.demo.domains.Category;
+
 import java.util.List;
 import java.util.Set;
 
-public class UpdateProductRequestDTO {
-    private Long id;
+public class AddProductRequestDto {
     private String name;
     private String description;
     private Double price;

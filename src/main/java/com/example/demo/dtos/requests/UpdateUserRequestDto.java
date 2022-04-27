@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @Getter
-public class UpdateUserRequestDTO {
+public class UpdateUserRequestDto {
     private Long id;
     //private String username;
     private String name;

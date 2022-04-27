@@ -1,10 +1,10 @@
 package com.example.demo.services.impls;
 
-import com.example.demo.dtos.requests.OrderRequestDTO;
-import com.example.demo.dtos.requests.ShoppingProductRequestDTO;
-import com.example.demo.dtos.requests.UpdateCartRequestDTO;
-import com.example.demo.dtos.responses.CartResponseDTO;
-import com.example.demo.dtos.responses.OrderResponseDTO;
+import com.example.demo.dtos.requests.OrderRequestDto;
+import com.example.demo.dtos.requests.ShoppingProductRequestDto;
+import com.example.demo.dtos.requests.UpdateCartRequestDto;
+import com.example.demo.dtos.responses.CartResponseDto;
+import com.example.demo.dtos.responses.OrderResponseDto;
 import com.example.demo.services.ShoppingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,32 +15,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShoppingServiceImpl implements ShoppingService {
     @Override
-    public CartResponseDTO updateCart(UpdateCartRequestDTO dto) {
+    public CartResponseDto updateCart(UpdateCartRequestDto dto) {
         return null;
     }
 
     @Override
-    public CartResponseDTO getCart(Long userId) {
+    public CartResponseDto getCart(Long userId) {
         return null;
     }
 
     @Override
-    public OrderResponseDTO getOrder(Long orderId) {
+    public OrderResponseDto getOrder(Long orderId) {
         return null;
     }
 
     @Override
-    public List<OrderResponseDTO> getOrders(Long userId) {
+    public List<OrderResponseDto> getOrders(Long userId) {
         return null;
     }
 
     @Override
-    public CartResponseDTO addProductToCart(ShoppingProductRequestDTO dto) {
+    public CartResponseDto addProductToCart(ShoppingProductRequestDto dto) {
         return null;
     }
 
     @Override
-    public OrderResponseDTO orderProducts(OrderRequestDTO dto) {
+    public OrderResponseDto orderProducts(OrderRequestDto dto) {
         return null;
     }
 }

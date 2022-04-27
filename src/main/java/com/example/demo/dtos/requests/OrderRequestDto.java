@@ -2,8 +2,8 @@ package com.example.demo.dtos.requests;
 
 import java.util.List;
 
-public class OrderRequestDTO {
+public class OrderRequestDto {
     private String address;
     private String phoneNumber;
-    private List<ShoppingProductRequestDTO> shoppingProducts;
+    private List<ShoppingProductRequestDto> shoppingProducts;
 }

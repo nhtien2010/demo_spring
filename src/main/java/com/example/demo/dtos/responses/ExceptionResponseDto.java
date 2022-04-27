@@ -8,7 +8,7 @@ import java.time.Instant;
 
 @Getter@Setter
 @RequiredArgsConstructor
-public class ExceptionResponseDTO {
+public class ExceptionResponseDto {
     final int statusCode;
     final String message;
     final Instant timeStamp;

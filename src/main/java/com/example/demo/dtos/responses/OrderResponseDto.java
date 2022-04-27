@@ -8,13 +8,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-public class OrderResponseDTO {
+public class OrderResponseDto {
     private String orderStatus;
     private Double totalPrice;
     private String address;
     private String phoneNumber;
     private String DeliveringDate;
 
-    private List<ShoppingProductResponseDTO> shoppingProducts;
+    private List<ShoppingProductResponseDto> shoppingProducts;
 
 }

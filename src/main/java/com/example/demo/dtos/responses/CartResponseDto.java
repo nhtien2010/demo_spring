@@ -11,12 +11,12 @@ import javax.persistence.OneToOne;
 import java.util.Date;
 import java.util.List;
 
-public class CartResponseDTO {
+public class CartResponseDto {
     private Long id;
     private Date createdDate;
     private Date updatedDate;
     private Double totalPrice;
 
-    private List<ShoppingProductResponseDTO> shoppingProducts;
+    private List<ShoppingProductResponseDto> shoppingProducts;
 
 }

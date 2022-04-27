@@ -23,7 +23,7 @@ public class UserModel extends BaseEntity implements UserDetails {
     private String avatarUrl;
     private Boolean isLocked;
 
-    @Transient
+    @ElementCollection
     private Set<UserRole> roles = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "userModel")
@@ -55,5 +55,9 @@ public class UserModel extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean addRole(UserRole role){
+        return roles.add(role);
     }
 }

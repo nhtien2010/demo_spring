@@ -1,8 +1,9 @@
 package com.example.demo.services.impls;
 
-import com.example.demo.dtos.requests.AddCategoryRequestDTO;
-import com.example.demo.dtos.requests.UpdateCategoryRequestDTO;
-import com.example.demo.dtos.responses.CategoryResponseDTO;
+import com.example.demo.dtos.requests.AddCategoryRequestDto;
+import com.example.demo.dtos.requests.UpdateCategoryRequestDto;
+import com.example.demo.dtos.responses.CategoryResponseDto;
+import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
+    private final CategoryRepository categoryRepository;
     @Override
-    public List<CategoryResponseDTO> getAllCategories() {
+    public List<CategoryResponseDto> getAllCategories() {
         return null;
     }
 
     @Override
-    public CategoryResponseDTO addCategory(AddCategoryRequestDTO dto) {
+    public CategoryResponseDto addCategory(AddCategoryRequestDto dto) {
         return null;
     }
 
@@ -28,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponseDTO updateCategory(UpdateCategoryRequestDTO dto) {
+    public CategoryResponseDto updateCategory(UpdateCategoryRequestDto dto) {
         return null;
     }
 }
