@@ -1,0 +1,3 @@
+[submodule "back_end_submodule"]
+	path = back_end_submodule
+	url = https://github.com/nhtien2010/back_end_repository
