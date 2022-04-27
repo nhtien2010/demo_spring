@@ -12,4 +12,7 @@ public class MessageFormatter {
     public static String formatUserAlreadyExist(String username){
         return format("User %s already exists", username);
     }
+    public static String formatInvalidRequestInput(String input){
+        return format("Invalid request input - %s", input);
+    }
 }

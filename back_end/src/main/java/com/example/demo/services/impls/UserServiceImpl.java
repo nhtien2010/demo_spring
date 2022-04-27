@@ -9,6 +9,7 @@ import com.example.demo.dtos.requests.RegisterRequestDto;
 import com.example.demo.dtos.requests.RegisterUserRequestDto;
 import com.example.demo.dtos.requests.UpdateUserRequestDto;
 import com.example.demo.dtos.responses.UserResponseDto;
+import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.ConflictRequestException;
 import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.repositories.UserRepository;
@@ -101,10 +102,13 @@ public class UserServiceImpl implements UserService {
         UserModel userModel = mapper.map(request, UserModel.class);
         userModel.setIsLocked(false);
         userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
-        userModel.setRoles(Collections.singleton(new UserRole(UserRoleEnum.CUSTOMER.name())));
+        userModel.setRoles(new HashSet<>(Collections.singletonList(new UserRole(UserRoleEnum.CUSTOMER.name()))));
         if(request instanceof RegisterAdminRequestDto){
             String role = ((RegisterAdminRequestDto) request).userRole;
-            userModel.addRole(new UserRole(role));
+            if(!role.equals(UserRoleEnum.ADMIN.name()) || !userModel.addRole(new UserRole(role)))
+            {
+                throw new BadRequestException(MessageFormatter.formatInvalidRequestInput(role));
+            }
         }
         userModel.setCreatedDate(Date.from(Instant.now()));
         userModel.setUpdatedDate(Date.from(Instant.now()));
